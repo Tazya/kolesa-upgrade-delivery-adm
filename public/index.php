@@ -13,5 +13,6 @@ $app->addErrorMiddleware(true, true, true);
 $app->add(TwigMiddleware::create($app, $twig));
 
 $app->get('/', Controllers\IndexController::class . ':home');
+$app->get('/message', Controllers\MessageController::class . ':index');
 
 $app->run();
