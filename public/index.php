@@ -14,5 +14,5 @@ $app->add(TwigMiddleware::create($app, $twig));
 
 $app->get('/', Controllers\IndexController::class . ':home');
 $app->get('/message', Controllers\MessageController::class . ':index');
-
+$app->post('/message', Controllers\MessageController::class . ':getMessage');
 $app->run();

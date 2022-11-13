@@ -3,8 +3,11 @@
 
 
 {% block body %}
-    <form>
-        <label "message-text" > Message text</label>
-        <input name="messageText" type="text" class="form-control" "message-text" placeholder="" required="true">
+    <form method="post" action="/message" >
+        <div class="mb-3">
+            <label "message-text" class="form-label" > Message text</label>
+            <input name="messageText" type="text" class="form-control" "message-text" placeholder="" required="true" value={{message}}>
+        </div>
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Send</button>
     </form>
 {% endblock %}

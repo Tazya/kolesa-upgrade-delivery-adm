@@ -13,4 +13,11 @@ class MessageController
 
         return $view->render($response, 'message/index.twig');
     }
+
+    public function getMessage(ServerRequest $request, Response $response)
+    {
+        $view = Twig::fromRequest($request);
+        $messageText  = $request->getParsedBodyParam('messageText');
+        return $view->render($response, 'message/index.twig', ["message" => $messageText]);
+    }
 }
