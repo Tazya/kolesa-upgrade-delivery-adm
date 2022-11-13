@@ -3,11 +3,21 @@
 
 
 {% block body %}
-    <form method="post" action="/message" >
+    <form method="post" action="/message/send" >
         <div class="mb-3">
-            <label "message-text" class="form-label" > Message text</label>
-            <input name="messageText" type="text" class="form-control" "message-text" placeholder="" required="true" value={{message}}>
+            <label class="form-label" > Title</label>
+            <input name="message[title]" type="text" class="form-control"  placeholder=""  value={{message.title}}>
         </div>
+        <div class="mb-3">
+            <label  class="form-label" >Text</label>
+            <input name="message[body]" type="text" class="form-control"  placeholder=""  value={{message.body}}>
+            {% if errors.body %}
+                    <div style="color: red">{{ errors.body }}</div>
+            {% endif %}
+        </div>
+        {% if errors.messageLen %}
+                    <div style="color: red">{{ errors.messageLen }}</div>
+        {% endif %}
         <button class="w-100 btn btn-primary btn-lg" type="submit">Send</button>
     </form>
 {% endblock %}
