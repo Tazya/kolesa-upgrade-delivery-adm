@@ -35,9 +35,9 @@ class MessageRepository
         $db = new DB($cfg);
         $connection = $db->connectDB();
 
-        $adverts = $connection->query('SELECT * FROM adverts')->fetchAll(PDO::FETCH_ASSOC);
+        $messages = $connection->query('SELECT * FROM messages')->fetchAll(PDO::FETCH_ASSOC);
 
-        return $adverts ?? [];
+        return $messages ?? [];
     }
 
     private function saveDB($data) 
