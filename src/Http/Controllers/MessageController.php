@@ -6,10 +6,16 @@ use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Slim\Views\Twig;
 use GuzzleHttp\Client;
+use Psr\Container\ContainerInterface;
 
 class MessageController
 {
-   const API_URI = "localhost:8080"; 
+    private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
     public function index(ServerRequest $request, Response $response)
     {
         $view = Twig::fromRequest($request);
@@ -30,20 +36,25 @@ class MessageController
                 "errors" => $errors,
             ]);
         }
-        $serviceClient = new Client([
-            'base_uri' => self::API_URI,
-            'timeout' => 2.0,
-        ]);
-        $serviceResult = $serviceClient->request('POST', '/messages/sendToAll', ['json' => $messageData]);
+        $serviceClient = $this->container->get('serviceClient');
+        $serviceResult = $serviceClient->request('POST', '/test', ['json' => $messageData]);
         $body = $serviceResult->getBody();
         $resultArray = json_decode($body, true);
+
         if(!array_key_exists("status", $resultArray)){
             return $response->write("Wrong data format");
         }
+
         if($resultArray["status"]==="error"){
             return $response->write("Error: " . $resultArray["error"]);
         }
+
         return $response->withHeader('Content-Type', 'application/json')->write($body);
+    }
+
+    public function test(ServerRequest $request, Response $response)
+    {
+        return $response->withHeader('Content-Type', 'application/json')->write('{"status":"error", "error":"aaaa"}');
     }
 
 }
