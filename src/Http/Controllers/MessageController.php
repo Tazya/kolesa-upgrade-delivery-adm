@@ -38,7 +38,7 @@ class MessageController
         }
         $serviceClient = $this->container->get('serviceClient');
         $serviceResult = $serviceClient->request('POST', '/test', ['json' => $messageData]);
-        $body = $serviceResult->getBody();
+        $body = (string)$serviceResult->getBody();
         $resultArray = json_decode($body, true);
 
         if(!array_key_exists("status", $resultArray)){
@@ -49,12 +49,14 @@ class MessageController
             return $response->write("Error: " . $resultArray["error"]);
         }
 
-        return $response->withHeader('Content-Type', 'application/json')->write($body);
+        return $response->withJson(json_decode($body));
     }
 
     public function test(ServerRequest $request, Response $response)
     {
-        return $response->withHeader('Content-Type', 'application/json')->write('{"status":"error", "error":"aaaa"}');
+        return $response->withJson([
+            "status" => "ok",
+        ]);
     }
 
 }
