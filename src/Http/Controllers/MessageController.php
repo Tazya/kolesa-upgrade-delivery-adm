@@ -22,8 +22,6 @@ class MessageController
         $messageData  = $request->getParsedBodyParam('message', []);
         $validator = new MessageValidator();
         $errors = $validator->validate($messageData);
-        $repo = new MessageRepository();
-        $repo->create($messageData);
         
         if(!empty($errors)){
             return $view->render($response, 'message/index.twig', [
@@ -31,6 +29,9 @@ class MessageController
                 "errors" => $errors,
             ]);
         }
+
+        $repo = new MessageRepository();
+        $repo->create($messageData);
 
         return $view->render($response, 'message/index.twig', ["message" => $messageData]);
     }
