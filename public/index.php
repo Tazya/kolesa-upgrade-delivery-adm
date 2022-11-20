@@ -18,6 +18,7 @@ $app  = AppFactory::create();
 $app->addErrorMiddleware(true, true, true);
 $app->add(TwigMiddleware::create($app, $twig));
 $app->get('/', Controllers\IndexController::class . ':home');
+$app->get('/messages', Controllers\MessageController::class . ':allMessages');
 $app->post('/test', Controllers\MessageController::class . ':test');
 $app->get('/message/new', Controllers\MessageController::class . ':index');
 $app->post('/message/send', Controllers\MessageController::class . ':sendMessage');

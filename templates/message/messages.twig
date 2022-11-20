@@ -1,0 +1,11 @@
+{% extends "base.twig" %}
+
+{% block body %}
+    <ul class="list-group">
+        {% for message in messages %}
+            <li class="list-group-item"> <b> {{ message.getTitle() }} </b>
+                <p> {{message.getBody() }} </p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

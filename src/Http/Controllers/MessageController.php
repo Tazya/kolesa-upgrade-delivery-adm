@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Validators\MessageValidator;
+use App\Repository\MessageRepository;
 use App\Model\Services\BotService;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
@@ -37,6 +38,10 @@ class MessageController
                 "errors" => $errors,
             ]);
         }
+
+        $repo = new MessageRepository();
+        $repo->create($messageData);
+
         $botClient = new BotService($this->container->get('botService'));
         $serviceResult = $botClient->sendToAll($messageData['title'], $messageData['body']);
         $body = (string)$serviceResult->getBody();
@@ -58,5 +63,15 @@ class MessageController
         return $response->withJson([
             "status" => "ok",
         ]);
+    }
+    
+    public function allMessages(ServerRequest $request, Response $response) 
+    {
+        $repo = new MessageRepository();
+        $messages = $repo->getAll();
+
+        $view = Twig::fromRequest($request);
+
+        return $view->render($response, 'message/messages.twig', ["messages" => $messages]);
     }
 }
