@@ -1,13 +1,22 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Model\Validators\MessageValidator;
+use App\Model\Services\BotService;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Slim\Views\Twig;
+use Psr\Container\ContainerInterface;
 
 class MessageController
 {
+    private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
     public function index(ServerRequest $request, Response $response)
     {
         $view = Twig::fromRequest($request);
@@ -21,13 +30,33 @@ class MessageController
         $messageData  = $request->getParsedBodyParam('message', []);
         $validator = new MessageValidator();
         $errors = $validator->validate($messageData);
-        
-        if(!empty($errors)){
+
+        if (!empty($errors)) {
             return $view->render($response, 'message/index.twig', [
                 "message" => $messageData,
                 "errors" => $errors,
             ]);
         }
-        return $view->render($response, 'message/index.twig', ["message" => $messageData]);
+        $botClient = new BotService($this->container->get('botService'));
+        $serviceResult = $botClient->sendToAll($messageData['title'], $messageData['body']);
+        $body = (string)$serviceResult->getBody();
+        $resultArray = json_decode($body, true);
+
+        if (!array_key_exists("status", $resultArray)) {
+            return $response->write("Wrong data format");
+        }
+
+        if ($resultArray["status"] === "error") {
+            return $response->write("Error: " . $resultArray["error"]);
+        }
+
+        return $response->withJson(json_decode($body));
+    }
+
+    public function test(ServerRequest $request, Response $response)
+    {
+        return $response->withJson([
+            "status" => "ok",
+        ]);
     }
 }
