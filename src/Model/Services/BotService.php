@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Model\Services;
 
 use GuzzleHttp\ClientInterface;
 
