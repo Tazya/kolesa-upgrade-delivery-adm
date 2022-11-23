@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Services;
+namespace App\Services;
 
 use GuzzleHttp\ClientInterface;
 
@@ -19,6 +19,7 @@ class BotService
             "title" => $title,
             "body" => $body
         ];
+
         return $this->client->request('POST', '/messages/sendToAll', ['json' => $messageData]);
     }
 
