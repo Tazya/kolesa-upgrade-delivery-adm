@@ -1,0 +1,16 @@
+{% extends 'base.twig' %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block body %}
+    <div style="margin: 200px 100px;">
+    <div class="test"></div>
+    {% if error %}
+        <h2>Cервис недоступен</h2>
+        <p style="margin: 0 15px; font-size:20px;"> Сообщите разработчикам и попробуйте позже...</p>
+    {% else %}
+        <h2>Сервис готов к работе!</h2>
+    {% endif %}
+    </div>
+{% endblock %}

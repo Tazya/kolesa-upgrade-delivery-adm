@@ -21,4 +21,9 @@ class BotService
         ];
         return $this->client->request('POST', '/messages/sendToAll', ['json' => $messageData]);
     }
+
+    public function checkHealth()
+    {
+        return $this->client->request('GET', '/health');
+    }
 }

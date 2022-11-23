@@ -58,13 +58,6 @@ class MessageController
         return $response->withJson(json_decode($body));
     }
 
-    public function test(ServerRequest $request, Response $response)
-    {
-        return $response->withJson([
-            "status" => "ok",
-        ]);
-    }
-    
     public function allMessages(ServerRequest $request, Response $response) 
     {
         $repo = new MessageRepository();
