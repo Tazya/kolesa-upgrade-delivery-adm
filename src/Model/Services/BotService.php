@@ -6,6 +6,7 @@ use GuzzleHttp\ClientInterface;
 
 class BotService
 {
+    const ADDR = 'localhost:8888';
     private $client;
 
     public function __construct(ClientInterface $client)
@@ -19,6 +20,7 @@ class BotService
             "title" => $title,
             "body" => $body
         ];
-        return $this->client->request('POST', '/messages/sendToAll', ['json' => $messageData]);
+
+        return $this->client->request('POST', self::ADDR . '/messages/sendToAll', ['json' => $messageData]);
     }
 }
