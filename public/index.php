@@ -8,7 +8,7 @@ use Slim\Factory\AppFactory;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 
-const API_URI = "localhost:8080";
+const API_URI = "localhost:8888";
 
 $twig = Twig::create(__DIR__ . '/../templates', ['cache' => false]);
 $container = new ServiceContainer();

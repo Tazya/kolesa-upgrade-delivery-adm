@@ -2,4 +2,17 @@
 
 {% block body %}
     <h1>Добро пожаловать в панель управления!</h1>
+<!-- Example split danger button -->
+    <div class="btn-group">
+        <button type="button" class="btn btn-info" style="margin-top: 30px;padding: 5px 15px">Меню</button>
+        <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" style="margin-top: 30px" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/messages">Все Сообщения</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/message/new">Создание сообщения</a></li>
+        </ul>
+    </div>
 {% endblock %}
