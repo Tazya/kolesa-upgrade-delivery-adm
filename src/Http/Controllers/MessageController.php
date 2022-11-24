@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Validators\MessageValidator;
 use App\Repository\MessageRepository;
-use App\Services\BotService;
+use App\Model\Services\BotService;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Slim\Views\Twig;
@@ -59,14 +59,7 @@ class MessageController
         return $response->withJson(json_decode($body));
     }
 
-    public function test(ServerRequest $request, Response $response)
-    {
-        return $response->withJson([
-            "status" => "ok",
-        ]);
-    }
-
-    public function allMessages(ServerRequest $request, Response $response) 
+    public function allMessages(ServerRequest $request, Response $response)
     {
         $repo = new MessageRepository();
         $messages = $repo->getAll();
